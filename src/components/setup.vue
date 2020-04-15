@@ -85,7 +85,7 @@
 
         <div align="center" class="form-area" id="p3" v-if="counter === 2">
           Enter the FQDN
-          <b-form-input id="input-1" v-model="form.fqdn" type="text" required placeholder="FQDN" :state="(fqdnActive) ? fdqn_name_state : null" v-on:click="activatefdqn" />Enter the IP Address
+          <b-form-input id="input-1" v-model="form.fqdn" type="text" required placeholder="mymail.somecollege.edu" :state="(fqdnActive) ? fdqn_name_state : null" v-on:click="activatefdqn" />Enter the IP Address
           <b-form-input id="input-1" v-model="form.ipAddy" type="text" required placeholder="Ex. 172.16.254.1" :state="(ipActive) ? ip_name_state : null" v-on:click="activateip" />What port is PostgreSQL running on?
           <b-form-input id="input-1" v-model="form.port" type="number" required placeholder="Ex. 5422" :state="(portActive) ? port_name_state : null" v-on:click="activatePort" />
         </div>
@@ -129,7 +129,7 @@
       <b-row>
         <b-col>
           <md-button class="md-primary next-button" v-on:click="goForward" id="button" v-if="counter < 5"> {{next_button_text}} </md-button>
-          <md-button class="md-primary back-button" v-on:click="goBack" id="button" v-if="counter > 0">Back</md-button>
+          <md-button class="md-primary back-button" v-on:click="goBack" id="button" v-if="counter > 0 && counter < 5">Back</md-button>
         </b-col>
       </b-row>
     </b-container>
@@ -270,7 +270,7 @@ export default {
         document.getElementById("title").innerHTML =
           "Step " + (this.counter + 1);
         document.getElementById("step").innerHTML = "Database info please";
-      } else if (this.counter == 3) {
+      } else if (this.counter == 4) {
         document.getElementById("dot5").className = "dot";
         document.getElementById("row").style.background =
           "linear-gradient(#7750CA 50%, #66AD83 50%)";
