@@ -42,40 +42,40 @@
       </b-row>
       <b-container class="bottom">
         <b-row>
-          <div class="old" id="p1">
+          <div class="form-area" id="p1" v-if="counter === 0">
           Welcome to B-On-Time!<br /><br />
           This app will help you to better manage the hours of your employees. <br />
           This setup wizard is for me to better know your company!<br />
           Press next to begin our journey!
           </div>
 
-          <div align="center" class="new" id="p2">
-            Choose a password
-          <b-form-input
-            id="input-1"
-            v-model="form.pass"
-            type="password"
-            placeholder="Enter password"
-            :state="(pActive) ? password_name_state : null"
-            v-on:click="activatePassword"
+          <div align="center" class="form-area" id="p2" v-if="counter === 1">
+			Choose a password
+            <b-form-input
+              id="input-1"
+              v-model="form.pass"
+              type="password"
+              placeholder="Enter password"
+              :state="(pActive) ? password_name_state : null"
+              v-on:click="activatePassword"
             />
             Again, please
             <b-form-input
-            id="input-1"
-            v-model="form.Repass"
-            type="password"
-            required
-            placeholder="Re-enter password"
-            :state="(vpActive) ? verifyPass_name_state : null"
-            v-on:click="activateVerifyPassword"
+              id="input-1"
+              v-model="form.Repass"
+              type="password"
+              required
+              placeholder="Re-enter password"
+              :state="(vpActive) ? verifyPass_name_state : null"
+              v-on:click="activateVerifyPassword"
             />
             <br />
             <b>Note*</b> this will serve as your master password <br /> so choose wisely as this <b>cannot</b> be changed.
           </div>
 
-           <div align="center" class="new" id="p3">
-            Enter the FQDN
-          <b-form-input
+          <div align="center" class="form-area" id="p3" v-if="counter === 2">
+			Enter the FQDN
+         	<b-form-input
             id="input-1"
             v-model="form.fqdn"
             type="text"
@@ -104,8 +104,11 @@
             :state="(portActive) ? port_name_state : null"
             v-on:click="activatePort"
             />
-            What's the name of your Databse?
-            <b-form-input
+          </div>
+
+           <div align="center" class="form-area" id="p4" v-if="counter === 3">
+			What's the name of your Databse?
+          <b-form-input
             id="input-1"
             v-model="form.databaseName"
             type="text"
@@ -135,7 +138,7 @@
             v-on:click="activatesqlPass"
             />
           </div>
-          <div class="new" id="p4">
+          <div class="form-area" id="p5" v-if="counter === 5">
           <div >
             FQDN: {{form.fqdn}}<br />
             <hr>
@@ -152,7 +155,7 @@
           
           </div>
           
-           <div align="center" class="new" id="p5">
+           <div align="center" class="form-area" id="p6" v-if="counter === 6">
             <br />
           Done! Your account has been created, <br />
           please sign in with the user name you received and your password.
@@ -165,7 +168,8 @@
         </b-row>
         <b-row>
           <b-col>
-            <md-button class="md-primary" v-on:click="go" id="button">Next</md-button>
+            <md-button class="md-primary next-button" v-on:click="goForward" id="button">Next</md-button>
+            <md-button class="md-primary back-button" v-on:click="goBack" id="button">Back</md-button>
           </b-col>
         </b-row>
       </b-container>
@@ -175,7 +179,6 @@
 </template>
 
 <script>
-var counter = 1;
 export default {
   name: 'hello',
 
@@ -190,6 +193,7 @@ export default {
     databaseActive: false,
     userActive: false,
     sqlPassActive: false,
+    counter: 0,
 
     form: {
       pass: '',
@@ -232,69 +236,74 @@ export default {
     }
   },
   methods: {
-    go: function (event) {
-      // `this` inside methods points to the Vue instance
-      // `event` is the native DOM event
-      if (event) {
-        var oldText, newText;
+    goForward: function () {
+      if (this.counter == 0)
+      {
+        document.getElementById("dot2").className = "completed"
+        document.getElementById("title").innerHTML = "Step " + (this.counter + 1);
+        document.getElementById("step").innerHTML = "Set a V.I.P password";
+        this.counter++;
+      }
 
+      else if (this.counter == 1)
+      {
+        if (!((this.form.pass == this.form.Repass) && (this.form.Repass.length >= 8))) {return;}
+        document.getElementById("dot3").className = "completed"
+        document.getElementById("title").innerHTML = "Step " + (this.counter + 1);
+        document.getElementById("step").innerHTML = "Domain info now";
+        this.counter++;
+      }
 
-        if (counter == 1)
-        {
-          oldText = document.getElementById("p1")
-          newText = document.getElementById("p2")
-          oldText.className = "done"
-          newText.className = "old"
-          document.getElementById("dot2").className = "completed"
-          document.getElementById("title").innerHTML = "Step " + (counter + 1);
-          document.getElementById("step").innerHTML = "Set a V.I.P password";
-        }
+      else if (this.counter == 2)
+      {
+        if (!((this.form.ipAddy.length >= 1) && (this.form.fqdn.length >= 1) && (this.form.port.length >= 1))) {return;}
+        document.getElementById("dot4").className = "completed"
+        document.getElementById("title").innerHTML = "Step " + (this.counter + 1);
+        document.getElementById("step").innerHTML = "Database info please";
+        this.counter++;
+      }
+		else if(this.counter == 3) this.counter++;
+      else if (this.counter == 4)
+      {
+        if (!((this.form.databaseName.length >= 1) && (this.form.postSQLUser.length >= 1) && (this.form.postSQLPass.length >= 1))) {return;}
+        document.getElementById("dot5").className = "completed"
+        document.getElementById("row").style.background = "linear-gradient(#7750CA 50%, #66AD83 50%)";
+        document.getElementById("title").innerHTML = ""
+        document.getElementById("step").innerHTML = "Thanks!";
+        this.counter++;
+        alert(JSON.stringify(this.form))
+      }
+    },
+    goBack: function () {
+      if (this.counter == 0) return;
+      this.counter--;
+      if (this.counter == 0)
+      {
+        document.getElementById("dot2").className = "dot"
+        document.getElementById("title").innerHTML = "Step " + (this.counter + 1);
+        document.getElementById("step").innerHTML = "Set a V.I.P password";
+      }
 
+      else if (this.counter == 1)
+      {
+        document.getElementById("dot3").className = "dot"
+        document.getElementById("title").innerHTML = "Step " + (this.counter + 1);
+        document.getElementById("step").innerHTML = "Domain info now";
+      }
 
-        if (counter == 2)
-        {
-          if (!((this.form.pass == this.form.Repass) && (this.form.Repass.length >= 8))) {return;}
-          oldText = document.getElementById("p2")
-          newText = document.getElementById("p3")
-          oldText.className = "done"
-          newText.className = "old"
-          document.getElementById("dot3").className = "completed"
-          document.getElementById("title").innerHTML = "Step " + (counter + 1);
-          document.getElementById("step").innerHTML = "Info section";
-          
-        }
+      else if (this.counter == 2)
+      {
+        document.getElementById("dot4").className = "dot"
+        document.getElementById("title").innerHTML = "Step " + (this.counter + 1);
+        document.getElementById("step").innerHTML = "Database info please";
+      }
 
-        else if (counter == 3)
-        {
-          var showPass = this.form.postSQLPass;
-          if (!((this.form.ipAddy.length >= 1) && (this.form.fqdn.length >= 1) && (this.form.port.length >= 1))) {return;}
-          oldText = document.getElementById("p3")
-          newText = document.getElementById("p4")
-          oldText.className = "done"
-          newText.className = "old"
-          document.getElementById("dot4").className = "completed"
-          document.getElementById("showPass").innerHTML ="Password: " + showPass.charAt(0) + "*****" + showPass.charAt(showPass.length - 1);
-          document.getElementById("title").innerHTML = "Step " + (counter + 1);
-          document.getElementById("step").innerHTML = "How does it look?";
-          
-        }
-
-        else if (counter == 4)
-        {
-          if (!((this.form.databaseName.length >= 1) && (this.form.postSQLUser.length >= 1) && (this.form.postSQLPass.length >= 1))) {return;}
-          oldText = document.getElementById("p4")
-          newText = document.getElementById("p5")
-          oldText.className = "done"
-          newText.className = "old"
-          document.getElementById("dot5").className = "completed"
-          document.getElementById("row").style.background = "linear-gradient(#7750CA 50%, #66AD83 50%)";
-          document.getElementById("title").innerHTML = ""
-          document.getElementById("step").innerHTML = "Thanks!";  
-
-          alert(JSON.stringify(this.form))
-        }
-
-        counter += 1;
+      else if (this.counter == 3)
+      {
+        document.getElementById("dot5").className = "dot"
+        document.getElementById("row").style.background = "linear-gradient(#7750CA 50%, #66AD83 50%)";
+        document.getElementById("title").innerHTML = ""
+        document.getElementById("step").innerHTML = "Thanks!";
       }
     },
     activatePassword() { this.pActive = true },
@@ -343,10 +352,19 @@ export default {
   background: #7750CA;
 }
 
-.md-primary
+.next-button
 {
   position: absolute;
   right: 0;
+  /* background: blue; */
+  margin-top: 20%;
+  /* margin-left: 150%; */
+}
+
+.back-button
+{
+  position: absolute;
+  left: 0;
   /* background: blue; */
   margin-top: 20%;
   /* margin-left: 150%; */
@@ -358,8 +376,6 @@ export default {
   width: 554px;
   height: 30px;
   top: 140px;
-
-
   background: linear-gradient(#7750CA 50%, #fff 50%)
 }
 
@@ -400,7 +416,7 @@ p {
   /* background:blue; */
 }
 
-.old  {
+.form-area  {
   font-size: 16pt;
   text-align: justify;
   line-height: 25pt;
@@ -409,20 +425,6 @@ p {
   margin-top: 12%;
   margin-left: 5%;
   margin-right: 5%;
-}
-
-.new {
-    opacity: 0;
-    display: none;
-}
-
-.done {
-    opacity: 0;
-    display: none;
-}
-
-.old, .new {
-    transition: opacity 0.5s linear;
 }
 
 </style>
