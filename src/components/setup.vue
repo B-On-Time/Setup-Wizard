@@ -20,17 +20,17 @@
 
         <b-col>
           <span class="dot" id="dot2">
-          <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 3h-6.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H3v18h18V3zm-9 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>          </span>
-        </b-col>
-
-        <b-col>
-          <span class="dot" id="dot3">
           <svg class="icon" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24"/></g><g><g><g><path d="M23,8c0,1.1-0.9,2-2,2c-0.18,0-0.35-0.02-0.51-0.07l-3.56,3.55C16.98,13.64,17,13.82,17,14c0,1.1-0.9,2-2,2s-2-0.9-2-2 c0-0.18,0.02-0.36,0.07-0.52l-2.55-2.55C10.36,10.98,10.18,11,10,11s-0.36-0.02-0.52-0.07l-4.55,4.56C4.98,15.65,5,15.82,5,16 c0,1.1-0.9,2-2,2s-2-0.9-2-2s0.9-2,2-2c0.18,0,0.35,0.02,0.51,0.07l4.56-4.55C8.02,9.36,8,9.18,8,9c0-1.1,0.9-2,2-2s2,0.9,2,2 c0,0.18-0.02,0.36-0.07,0.52l2.55,2.55C14.64,12.02,14.82,12,15,12s0.36,0.02,0.52,0.07l3.55-3.56C19.02,8.35,19,8.18,19,8 c0-1.1,0.9-2,2-2S23,6.9,23,8z"/></g></g></g></svg>          </span>
         </b-col>
 
         <b-col>
-          <span class="dot" id="dot4">
+          <span class="dot" id="dot3">
           <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/><path d="M0 0h24v24H0z" fill="none"/></svg>          </span>
+        </b-col>
+
+        <b-col>
+          <span class="dot" id="dot4">
+          <svg class="icon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M21 3h-6.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H3v18h18V3zm-9 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>          </span>
         </b-col>
 
         <b-col>
@@ -50,6 +50,7 @@
           </div>
 
           <div align="center" class="new" id="p2">
+            Choose a password
           <b-form-input
             id="input-1"
             v-model="form.pass"
@@ -58,7 +59,7 @@
             :state="(pActive) ? password_name_state : null"
             v-on:click="activatePassword"
             />
-            <br />
+            Again, please
             <b-form-input
             id="input-1"
             v-model="form.Repass"
@@ -69,71 +70,86 @@
             v-on:click="activateVerifyPassword"
             />
             <br />
-            <b>Note*</b> this will serve as your master password <br /> so choose wisely.
+            <b>Note*</b> this will serve as your master password <br /> so choose wisely as this <b>cannot</b> be changed.
           </div>
 
            <div align="center" class="new" id="p3">
+            Enter the FQDN
           <b-form-input
             id="input-1"
             v-model="form.fqdn"
             type="text"
             required
-            placeholder="Enter the FQDN"
+            placeholder="FQDN"
             :state="(fqdnActive) ? fdqn_name_state : null"
             v-on:click="activatefdqn"
             />
-            <br />
+            Enter the IP Address
           <b-form-input
             id="input-1"
             v-model="form.ipAddy"
             type="text"
             required
-            placeholder="Enter the IP Adress"
+            placeholder="Ex. 172.16.254.1"
             :state="(ipActive) ? ip_name_state : null"
             v-on:click="activateip"
             />
-            <br />
+            What port is PostgreSQL running on?
           <b-form-input
             id="input-1"
             v-model="form.port"
             type="number"
             required
-            placeholder="Enter the port #"
+            placeholder="Ex. 5422"
             :state="(portActive) ? port_name_state : null"
             v-on:click="activatePort"
             />
-          </div>
-
-           <div align="center" class="new" id="p4">
-          <b-form-input
+            What's the name of your Databse?
+            <b-form-input
             id="input-1"
             v-model="form.databaseName"
             type="text"
             required
-            placeholder="Enter the name of your Database"
+            placeholder="Name"
             :state="(databaseActive) ? database_name_state : null"
             v-on:click="activateDataBase"
             />
-            <br />
+            What's your PostgreSQL username
             <b-form-input
             id="input-1"
             v-model="form.postSQLUser"
             type="text"
             required
-            placeholder="Enter your user name"
+            placeholder="Username"
             :state="(userActive) ? user_name_state : null"
             v-on:click="activateUser"
             />
-            <br />
+            What's your PostgreSQL password
             <b-form-input
             id="input-1"
             v-model="form.postSQLPass"
             type="password"
             required
-            placeholder="Enter your password"
+            placeholder="Password"
             :state="(sqlPassActive) ? sqlPass_name_state : null"
             v-on:click="activatesqlPass"
             />
+          </div>
+          <div class="new" id="p4">
+          <div >
+            FQDN: {{form.fqdn}}<br />
+            <hr>
+            IP Address: {{form.ipAddy}}<br />
+            <hr>
+            PORT #: {{form.port}}<br />
+            <hr>
+            Database name: {{form.databaseName}}<br />
+            <hr>
+            Username: {{form.postSQLUser}}<br />
+            <hr>
+            <div id="showPass"><br /></div>
+          </div>
+          
           </div>
           
            <div align="center" class="new" id="p5">
@@ -244,20 +260,22 @@ export default {
           newText.className = "old"
           document.getElementById("dot3").className = "completed"
           document.getElementById("title").innerHTML = "Step " + (counter + 1);
-          document.getElementById("step").innerHTML = "Domain info now";
+          document.getElementById("step").innerHTML = "Info section";
           
         }
 
         else if (counter == 3)
         {
+          var showPass = this.form.postSQLPass;
           if (!((this.form.ipAddy.length >= 1) && (this.form.fqdn.length >= 1) && (this.form.port.length >= 1))) {return;}
           oldText = document.getElementById("p3")
           newText = document.getElementById("p4")
           oldText.className = "done"
           newText.className = "old"
           document.getElementById("dot4").className = "completed"
+          document.getElementById("showPass").innerHTML ="Password: " + showPass.charAt(0) + "*****" + showPass.charAt(showPass.length - 1);
           document.getElementById("title").innerHTML = "Step " + (counter + 1);
-          document.getElementById("step").innerHTML = "Database info please";
+          document.getElementById("step").innerHTML = "How does it look?";
           
         }
 
